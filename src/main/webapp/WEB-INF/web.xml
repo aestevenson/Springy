@@ -7,6 +7,24 @@
    id="WebApp_ID" version="3.0">
   <display-name>springy</display-name>
 
+<!--
+Basically:  Tells Spring to setup its root context by looking for config classes in our config package.
+It will find and use AppConfig.java.
+
+More info:
+"The root context is defined and configured to use AnnotationConfigWebApplicationContext
+instead of the default XmlWebApplicationContext. The newer AnnotationConfigWebApplicationContext 
+accepts @Configuration annotated classes as input for the Container configuration and is needed 
+in order to set up the Java based context.
+Unlike XmlWebApplicationContext, it assumes no default configuration class locations, so the 
+“contextConfigLocation” init-param for the servlet must be set. This will point to the java 
+package where the @Configuration classes are located; the fully qualified name(s) of the classes 
+are also supported."
+
+The listener is the class which is actually doing the configuration object scan.  In an xml based approach
+you'd typically only see that listener node defined and it would know to go look for applicationConfig.xml in
+a default location.
+-->
   <context-param>
     <param-name>contextClass</param-name>
     <param-value>
@@ -21,6 +39,7 @@
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
 
+<!--This sets up the default DispatcherServlet and loads another config object (WebConfig.java)-->
   <servlet>
     <servlet-name>Spring MVC Dispatcher Servlet</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -31,16 +50,16 @@
       </param-value>
     </init-param>
     <init-param>
-         <param-name>contextConfigLocation</param-name>
-         <param-value>com.aaron.springy.config</param-value>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>com.aaron.springy.config</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
 
   <servlet-mapping>
     <servlet-name>Spring MVC Dispatcher Servlet</servlet-name>
+<!--    Mapping all URL patterns to the Dispatcher Servlet-->
     <url-pattern>/</url-pattern>
   </servlet-mapping>
-   
 
 </web-app>
