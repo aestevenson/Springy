@@ -1,0 +1,116 @@
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.aaron</groupId>
+  <artifactId>springy</artifactId>
+  <packaging>war</packaging>
+  <version>1.0.0</version>
+  <name>Spring Test App</name>
+  <description>A Test of Miscellaneous things that Spring does.</description>
+
+  <repositories>
+<!--The big Maven repo from whence most libraries come from.-->
+    <repository>
+      <id>maven2-repository.dev.java.net</id>
+      <name>Java.net Repository for Maven</name>
+      <url>http://download.java.net/maven/2/</url>
+      <layout>default</layout>
+    </repository>
+
+<!--The Spring repo-->
+    <repository>
+      <id>repository.springsource.snapshot</id>
+      <name>SpringSource Snapshot Repository</name>
+      <url>http://repo.springsource.org/snapshot</url>
+    </repository>
+  </repositories>
+
+<!--We use these properties to more easily manage our libraries-->
+  <properties>
+    <spring.version>3.1.0.BUILD-SNAPSHOT</spring.version>
+    <springsecurity.version>3.1.0.BUILD-SNAPSHOT</springsecurity.version>
+    <cglib.version>2.2.2</cglib.version>
+  </properties>
+
+  <dependencies>
+    
+<!--  The core Spring library.  Allows for Dependency Injection.  Pretty sure you always need this if you
+are going to have any Spring.-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+<!--  All the Spring web classes including, but not limited to, network protocols,
+URL filtering, and HTTP Message converstion are in here -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+<!--Does a lot of the Request Handling Work.  The most obvious need for this library though
+is the DispatcherServlet, which intercepts all web requests and passes it to the right Controller/Method-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+<!--Not sure I know why we need this, but it has something do with the fact that the
+@Configuration annotation won't work without it they are Beans and need to be aware of
+their Context.-->
+    <dependency>
+      <groupId>cglib</groupId>
+      <artifactId>cglib-nodep</artifactId>
+      <version>${cglib.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+
+
+  <!--These two are used handle JSON and to serialize and deserialize POJOs into JSON.-->
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>1.9.9</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-core-asl</artifactId>
+      <version>1.9.9</version>
+    </dependency>
+
+  </dependencies>
+
+
+  <build>
+    <plugins>
+      
+<!--      We override default behiour here to tell Maven we want to skip tests (saves a bit of time) -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.12.2</version>
+        <configuration>
+          <skipTests>true</skipTests>
+        </configuration>
+      </plugin>
+
+<!--      We override the default behavior here to tell Maven we're using Java 1.6-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+        <version>2.3.2</version>
+      </plugin>
+    </plugins>
+  </build>
+  	
+
+</project>
